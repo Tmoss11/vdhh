@@ -26,7 +26,7 @@
 "DELETE_CONTROLLER_ERR"="The SCSI controller has attached devices. Please detach them first";
 "CANNOT_CHANGE_CONTROLLER"="Cannot change controller";
 "SURE_TO_DELETE"="Are you sure you want to delete this VM?";
-"DELETE_MSG"="If you choose Delete, the Virtual Machine and all its data will be permananelty erased from the disk";
+"DELETE_MSG"="If you choose Delete, the Virtual Machine and all its data will be permanently erased from the disk";
 "DELETE_VM"="Delete This VM";
 "FIRST_VIEW_DESC"="Download and run a VM from our cloud library or create your own VM (Windows 10, Windows 8, custom Linux, etc.)";
 "CHOOSE_ISO_DESC"="Specify VM name and installation media which can be either optical drive on your Mac or an .ISO image file containing the setup";
@@ -43,8 +43,6 @@
 "CHOOSE_IMPORT_DESC"="Pick an exisiting VM image directory and file which can be in one of the following formats: OVA, VMDK, PVM, HDS or RAW";
 "CANCEL_CONVERT"="Press Cancel to stop conversion";
 "FAILED_FIND_IMG"="Failed to locate VM disk image";
-"VMLIB_ACCESS_DENIED"="Cannot access VM Library folder";
-"VMLIB_ACCESS_DENIED_INFO"="From Menu/Preferences choose the location of VM Library folder";
 "NEWER_TOOLS_AVAIL"="Newer Guest Add-Ons available";
 "NEWER_TOOLS_INFO"="We have detected an older version of guest add-ons installed on this VM. Please upgrade to a newer version";
 "CANNOT_IMPORT"="Cannot Import";

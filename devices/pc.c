@@ -117,7 +117,7 @@ void gsi_handler(void *opaque, int n, int level)
             if (n < 8)
                 pic_set_irq(pic_dev1, n, level);
             else
-                pic_set_irq(pic_dev2, n, level);
+                pic_set_irq(pic_dev2, n - 8, level);
         }
     }
     

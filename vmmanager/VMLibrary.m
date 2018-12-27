@@ -69,94 +69,102 @@
 
 - (instancetype)init
 {
+    if (![super init])
+        return nil;
+
     vmstate = [NSMutableDictionary dictionary];
     vmstate_lock = [[NSLock alloc] init];
 
-    if (self = [super init]) {
-        BOOL vmlib_found = FALSE;
-        NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-        if ([prefs objectForKey: @"VMLIB_PATH"]) {
-            self.vmLibPath = [prefs objectForKey: @"VMLIB_PATH"];
-
-            NSData *bookmark = [prefs objectForKey: self.vmLibPath];
-            if (bookmark) {
-                BOOL isStale;
-                NSError *error;
-                NSURL* outUrl = [NSURL URLByResolvingBookmarkData: bookmark options:NSURLBookmarkResolutionWithSecurityScope
-                        relativeToURL:nil bookmarkDataIsStale: &isStale error:&error];
-                [outUrl stopAccessingSecurityScopedResource];
-                if (![outUrl startAccessingSecurityScopedResource]) {
-                    NSAlert *alert = [[NSAlert alloc] init];
-                    [alert setMessageText: NSLocalizedString(@"VMLIB_ACCESS_DENIED", nil)];
-                    [alert setInformativeText:NSLocalizedString(@"VMLIB_ACCESS_DENIED_INFO", nil)];
-                    [alert addButtonWithTitle:NSLocalizedString(@"Close", nil)];
-                    alert.alertStyle = NSCriticalAlertStyle;
-                    [alert runModal];
-                } else
-                    vmlib_found = TRUE;
-            }
+    BOOL vmlib_found = FALSE;
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    if ([prefs objectForKey: @"VMLIB_PATH"]) {
+        self.vmLibPath = [prefs objectForKey: @"VMLIB_PATH"];
+        vmlib_found = 0 == access([self.vmLibPath fileSystemRepresentation], R_OK | W_OK);
+        if (!vmlib_found) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSAlert *alert = [[NSAlert alloc] init];
+                [alert setMessageText: NSLocalizedString(@"VMLIB_ACCESS_DENIED", nil)];
+                NSString* info = [NSString stringWithFormat:NSLocalizedString(@"VMLIB_ACCESS_DENIED_INFO", nil),
+                                  self.vmLibPath];
+                [alert setInformativeText:info];
+                [alert addButtonWithTitle:NSLocalizedString(@"Close", nil)];
+                alert.alertStyle = NSCriticalAlertStyle;
+                [alert runModal];
+            });
         }
-        if (!vmlib_found)
-            self.vmLibPath = [NSString stringWithFormat:@"%@/%@", NSHomeDirectory(), VM_LIB_DIR];
-
-        NSMutableDictionary *os = [NSMutableDictionary dictionary];
-        [os setObject: [NSArray arrayWithObjects:
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Windows 10", @"name",
-                         NSStringFromSelector(@selector(defaultVMConfigWin:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Windows 8", @"name",
-                         NSStringFromSelector(@selector(defaultVMConfigWin:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Windows Server 2012", @"name",
-                         NSStringFromSelector(@selector(defaultVMConfigWin71:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Windows 7", @"name",
-                         NSStringFromSelector(@selector(defaultVMConfigWin71:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Windows Server 2008", @"name",
-                         NSStringFromSelector(@selector(defaultVMConfigWin71:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Windows Vista", @"name",
-                         NSStringFromSelector(@selector(defaultVMConfigWin71:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Windows XP", @"name",
-                         NSStringFromSelector(@selector(defaultVMConfigWinXp:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Other", @"name",
-                         NSStringFromSelector(@selector(defaultVMConfigIDE:)), @"cfg", nil], nil]
-               forKey: @"Windows"];
-        [os setObject: [NSArray arrayWithObjects:
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Ubuntu 64bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Ubuntu 32bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Debian 64bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Debian 32bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"CentOS 64bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"CentOS 32bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Mint 64bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Mint 32bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"SUSE 64bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"SUSE 32bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Other 64bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigIDE:)), @"cfg", nil],
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Other 32bit", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigIDE:)), @"cfg", nil], nil]
-           forKey: @"Linux"];
-
-        [os setObject: [NSArray arrayWithObjects:
-                        [NSDictionary dictionaryWithObjectsAndKeys: @"Other", @"name",
-                                        NSStringFromSelector(@selector(defaultVMConfigIDE:)), @"cfg", nil], nil]
-            forKey: @"Other"];
-
-        self.os_list = os;
-
-        self.scsi_list = [NSDictionary dictionaryWithObjectsAndKeys:
-                          /*@"LSI SAS 1068", @"lsisas1068",*/ @"LSI MegaSAS", @"megasas", nil];
-        self.nic_list = [NSDictionary dictionaryWithObjectsAndKeys:
-                          @"e1000", @"e1000", @"rtl8139", @"rtl8139", nil];
     }
+    if (!vmlib_found)
+        self.vmLibPath = [NSString stringWithFormat:@"%@/%@", NSHomeDirectory(), VM_LIB_DIR];
+
+    // default settings
+    NSMutableDictionary *os = [NSMutableDictionary dictionary];
+    [os setObject: [NSArray arrayWithObjects:
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Windows 10", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigWin:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Windows 8", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigWin:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Windows Server 2012", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigWin71:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Windows 7", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigWin71:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Windows Server 2008", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigWin71:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Windows Vista", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigWin71:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Windows XP", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigWinXp:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Other", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigIDE:)), @"cfg", nil], nil]
+           forKey: @"Windows"];
+    [os setObject: [NSArray arrayWithObjects:
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Ubuntu 64bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Ubuntu 32bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Debian 64bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Debian 32bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"CentOS 64bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"CentOS 32bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Mint 64bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Mint 32bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"SUSE 64bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"SUSE 32bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigSCSI:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Other 64bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigIDE:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Other 32bit", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigIDE:)), @"cfg", nil], nil]
+       forKey: @"Linux"];
+    
+    [os setObject: [NSArray arrayWithObjects:
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Freebsd", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigBsd:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"OpenBSD", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigBsd:)), @"cfg", nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"NetBSD", @"name",
+                     NSStringFromSelector(@selector(defaultVMConfigBsd:)), @"cfg", nil],
+                     nil]
+           forKey: @"BSD"];
+
+    [os setObject: [NSArray arrayWithObjects:
+                    [NSDictionary dictionaryWithObjectsAndKeys: @"Other", @"name",
+                                    NSStringFromSelector(@selector(defaultVMConfigIDE:)), @"cfg", nil], nil]
+        forKey: @"Other"];
+
+    self.os_list = os;
+
+    self.scsi_list = [NSDictionary dictionaryWithObjectsAndKeys:
+                      /*@"LSI SAS 1068", @"lsisas1068",*/ @"LSI MegaSAS", @"megasas", nil];
+    self.nic_list = [NSDictionary dictionaryWithObjectsAndKeys:
+                      @"e1000", @"e1000", @"rtl8139", @"rtl8139", nil];
+
     return self;
 }
 
@@ -207,7 +215,7 @@
 
 - (NSArray*) getOSList
 {
-    return [self.os_list allKeys];
+    return @[@"Windows", @"Linux", @"BSD", @"Other"];
 }
 
 - (NSArray*) getOSFamilyList: (NSString*) os
@@ -717,7 +725,8 @@
         }
 
         if (usb.locationId)
-            [dev appendFormat:@",hostaddr=0x%x", [usb.locationId unsignedIntValue]];
+            [dev appendFormat:@",id=usb%u,hostaddr=0x%x", [usb.locationId unsignedIntValue],
+             [usb.locationId unsignedIntValue]];
         if (usb.vendorId)
             [dev appendFormat:@",vendorid=0x%x", [usb.vendorId unsignedIntValue]];
         if (usb.productId)
@@ -891,7 +900,7 @@
         cd_type = @"cdrom";
         if ([cd.type isEqualToString: @"image"])
             cd_type = @"disk";
-        NSString *img = cd.file && 0 == access([cd.file fileSystemRepresentation], R_OK) ? cd.file : nil;
+        NSString *img = [cd.file length] > 0 && 0 == access([cd.file fileSystemRepresentation], R_OK) ? cd.file : nil;
 
         [params addObject: @"-drive"];
         [params addObject: [NSString stringWithFormat: @"if=none,id=cdrom.%d,file=%@,media=%@",
@@ -921,10 +930,13 @@
             model = [NSString stringWithFormat: @"%@-%@", model, nic.family];
 
         [params addObject: @"-net"];
-        if (mac)
-            [params addObject: [NSString stringWithFormat: @"nic,vlan=%d,model=%@,macaddr=%@%@", i, model, mac, adv_params]];
-        else
-            [params addObject: [NSString stringWithFormat: @"nic,vlan=%d,model=%@%@", i, model, adv_params]];
+        if ([mac length] == 0) {
+            const char* path = [[self getVmFolder: name] fileSystemRepresentation];
+            uint32_t crc = crc32(0, path, strlen(path)) + i;
+            mac = [NSString stringWithFormat:@"76:6d:78:%02x:%02x:%02x",
+                   (int)((crc >> 24) ^ ((crc >> 16) & 0xff)), (int)((crc >> 8) & 0xff), (int)(crc & 0xff)];
+        }
+        [params addObject: [NSString stringWithFormat: @"nic,vlan=%d,model=%@,macaddr=%@%@", i, model, mac, adv_params]];
 
         [params addObject: @"-net"];
         if ([conn isEqualToString: @"host"] || [conn isEqualToString: @"shared"]) {
@@ -1423,7 +1435,7 @@
     if ([props objectForKey: @"cpu"])
         hw.cpu.cores = props[@"cpu"];
     else
-        hw.cpu.cores = @1;
+        hw.cpu.cores = @2;
 
     if ([props objectForKey: @"ram"])
         hw.ram = props[@"ram"];
@@ -1565,6 +1577,20 @@
     return [self defaultVMConfig: new_props];
 }
 
+- (VM *) defaultVMConfigBsd: (NSDictionary *) props
+{
+    NSMutableDictionary *new_props = [NSMutableDictionary dictionaryWithDictionary: props];
+    [new_props setObject: @"30G" forKey: @"hdSize"];
+    [new_props setObject: [NSNumber numberWithInt: 2] forKey: @"cpu"];
+    [new_props setObject: @"sata" forKey: @"ideMode"];
+    [new_props setObject: @"2G" forKey: @"ram"];
+    
+    VM* vm = [self defaultVMConfig: new_props];
+    vm.hw.hyperv = @"off";
+    
+    return vm;
+}
+
 - (VM *) defaultVMConfigIDE: (NSDictionary *) props
 {
     return [self defaultVMConfig: props];
@@ -1576,7 +1602,7 @@
     self.temp_vm_folder = folder;
 }
 
-- (void) addTemporaryVM: (NSDictionary*) props
+- (NSString*) addTemporaryVM: (NSDictionary*) props
 {
     NSString *name = [props objectForKey: @"name"];
     //NSString *iso = [props objectForKey: @"iso"];
@@ -1595,7 +1621,7 @@
     }
     VM *vm = [self performSelector: vm_create withObject: props];
 
-    NSURL *directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:    [[NSProcessInfo processInfo] globallyUniqueString]] isDirectory:YES];
+    NSURL *directoryURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:directoryURL withIntermediateDirectories:YES attributes:nil error: nil];
     self.temp_vm_folder = [directoryURL path];
 
@@ -1603,7 +1629,7 @@
     if (![[vm toDictionary] writeToFile: plist_file atomically: YES])
         [NSException raise:@"Cannot create properties file" format:@"file %@", plist_file];
 
-//    self.temp_vm = vm;
+    return self.temp_vm_folder;
 }
 
 - (void) cleanupTempVm

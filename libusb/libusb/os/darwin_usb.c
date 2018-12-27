@@ -790,7 +790,9 @@ static int process_new_device (struct libusb_context *ctx, io_service_t service)
     case kUSBDeviceSpeedFull: dev->speed = LIBUSB_SPEED_FULL; break;
     case kUSBDeviceSpeedHigh: dev->speed = LIBUSB_SPEED_HIGH; break;
 #if DeviceVersion >= 650
+#ifdef MAC_OS_X_VERSION_10_12
     case kUSBDeviceSpeedSuperPlus:
+#endif
     case kUSBDeviceSpeedSuper: dev->speed = LIBUSB_SPEED_SUPER; break;
 #endif
     default:

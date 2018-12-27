@@ -737,7 +737,7 @@ static int convert_write(ImgConvertState *s, int64_t sector_num, int nb_sectors,
     bool finished = false;
     int loops = 0;
 
-    while (s->current_sector < s->total_sectors) {
+    while (s->current_sector < s->total_sectors && !progress.cancelled) {
         progress.completedUnitCount = s->current_sector + 1;
         uint64_t start = [self timestamp];
 
@@ -1021,6 +1021,7 @@ out:
 {
     self.tmpFolder = folder;
     [convertCond lock];
+    convertResult = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self _importVmFromVmdk: file toFolder: folder withProgress:progress];
     });

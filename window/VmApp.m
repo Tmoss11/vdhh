@@ -280,6 +280,7 @@ static void do_unplug_usb(void* p) {
         return [title1 compare:title2];
     }];
 
+    BOOL separatorAdded = FALSE;
     if (0 == [connectedDevices count]) {
         NSMenuItem* item = [NSMenuItem new];
         item.enabled = FALSE;
@@ -291,6 +292,7 @@ static void do_unplug_usb(void* p) {
         item.title = NSLocalizedString(@"Select USB Devices to Map to VM", "");
         [menu addItem:item];
         [menu addItem:[NSMenuItem separatorItem]];
+        separatorAdded = TRUE;
 
         for (NSDictionary* info in connectedDevices) {
             NSMenuItem* item = [NSMenuItem new];
@@ -299,30 +301,35 @@ static void do_unplug_usb(void* p) {
             item.action = @selector(usbDeviceItemDidCheck:);
             item.title = [NSString stringWithFormat: @"%@ %@ [%X]", info[@"USB Vendor Name"], info[@"USB Product Name"],
                                                                     [info[@"locationID"] intValue]];
-            item.state = obj_for_usbinfo(info) ? NSOnState : NSOffState;
+            USBDevice* dev = USB_DEVICE(obj_for_usbinfo(info));
+            item.state = dev && dev->attached > 0 ? NSOnState : NSOffState;
             [menu addItem:item];
         }
+    }
+    // Append preconfigured devices
+    for (HWUsb* dev in self.vm.hw.usb) {
+        if (nil == dev.name)
+            // dummy device
+            continue;
 
-        // Append preconfigured devices
-        for (HWUsb* dev in self.vm.hw.usb) {
-            if (nil == dev.name)
-                // dummy device
-                continue;
-
-            NSUInteger index = [connectedDevices indexOfObjectPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                return [dev isEqual:obj];
-            }];
-            if (NSNotFound != index) {
-                // device is already listed above
-                continue;
-            }
-
-            NSMenuItem* item = [NSMenuItem new];
-            item.representedObject = dev;
-            item.title = dev.name;
-            item.enabled = FALSE;
-            [menu addItem:item];
+        NSUInteger index = [connectedDevices indexOfObjectPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            return [dev isEqual:obj];
+        }];
+        if (NSNotFound != index) {
+            // device is already listed above
+            continue;
         }
+
+        if (!separatorAdded) {
+            [menu addItem:[NSMenuItem separatorItem]];
+            separatorAdded = TRUE;
+        }
+
+        NSMenuItem* item = [NSMenuItem new];
+        item.representedObject = dev;
+        item.title = dev.name;
+        item.enabled = FALSE;
+        [menu addItem:item];
     }
     self.usbMenuItem.submenu = menu;
 }
@@ -408,9 +415,10 @@ static void on_obj_event(DeviceState* object, int event, void* opaque)
 {
     VmAppController* self = (__bridge VmAppController*)opaque;
     dispatch_async(dispatch_get_main_queue(), ^{
+        if (NULL == object->id)
+            return;
 
         if (strncmp(object->id, "usb", 3) == 0) {
-            // update USB menu items
             [self updateUSBMenu:self.usbMonitor.connectedDevices];
         }
 
@@ -571,6 +579,26 @@ char **_env = NULL;
 bool appStarted = false;
 
 #define PTHREAD_HIGHEST_PRIO    31
+
+void *veertu_headless_thread(void *p)
+{
+    struct sched_param sp;
+
+    VM* vm = CFBridgingRelease(p);
+
+    // set highest priority for main loop thread to mitigate poll() timeouts (OSX bug?)
+    memset(&sp, 0, sizeof(struct sched_param));
+    sp.sched_priority = PTHREAD_HIGHEST_PRIO;
+    if (pthread_setschedparam(pthread_self(), SCHED_RR, &sp)  == -1) {
+        printf("Failed to change priority.\n");
+        return 0;
+    }
+
+    vmx_main([vm.name fileSystemRepresentation], _argc, _argv, _env);
+
+    exit(0);
+    return 0;
+}
 
 void *veertu_main_thread(void *p)
 {

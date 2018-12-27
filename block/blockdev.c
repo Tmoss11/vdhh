@@ -3,6 +3,12 @@
  *
  * Copyright (c) 2003-2008 Fabrice Bellard
  *
+ * This work is licensed under the terms of the GNU GPL, version 2 or
+ * later.  This file incorporates work covered by the following copyright and
+ * permission notice:
+ *
+ * Copyright (c) 2003-2008 Fabrice Bellard
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights

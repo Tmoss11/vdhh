@@ -21,7 +21,7 @@ class VeertuManager(object):
             if parser.get('DEFAULT', 'APP_PATH'):
                 self.app = parser.get('DEFAULT', 'APP_PATH')
                 return
-        self.app = self._find_app_name(['Veertu', 'Veertu 2016 Business'])
+        self.app = self._find_app_name(['Veertu', 'Veertu 2016 Business', 'Veertu Desktop'])
         
         
     def _find_app_name(self, options):

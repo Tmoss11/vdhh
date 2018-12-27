@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010 Red Hat, Inc. and/or its affiliates.
  * Copyright (C) 2016 Veertu Inc,
  *
  * This program is free software; you can redistribute it and/or

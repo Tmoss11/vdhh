@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger, VMState) {
 - (int) countDevicesAttachedToController: (int) cid vm: (NSString *)vm_name;
 - (int) countDevicesAttachedToIDE: (NSString *)vm_name;
 
-- (void) addTemporaryVM: (NSDictionary*) props;
+- (NSString*) addTemporaryVM: (NSDictionary*) props;
 - (void) importTemporaryVM: (NSString *) name fromFolder: (NSString*) folder;
 - (BOOL) commitTemporaryVM;
 - (BOOL) isTemporaryVM: (NSString*) vm_name;

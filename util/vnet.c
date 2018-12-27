@@ -46,6 +46,8 @@
 
 extern uint32_t vm_ip_address;
 
+extern int _veertu_loglevel;
+
 struct arphdr {
     unsigned short ar_hrd;      /* format of hardware address */
     unsigned short ar_pro;      /* format of protocol address */
@@ -265,6 +267,16 @@ ssize_t vnet_write_packet(VnetState *s, const struct iovec *iov, int iovcnt)
         pkt_desc.vm_flags = 0;
     }
 
+    if (!s->hw_mac_set) {
+        const struct ether_header *eth = pkt_desc.vm_pkt_iov->iov_base;
+        memcpy(s->hw_mac, eth->ether_shost, ETHER_ADDR_LEN);
+        s->hw_mac_set = true;
+    } else {
+        const struct ether_header *eth = pkt_desc.vm_pkt_iov->iov_base;
+//        assert(memcmp(s->hw_mac, eth->ether_shost, ETHER_ADDR_LEN) == 0);
+        memcpy(s->hw_mac, eth->ether_shost, ETHER_ADDR_LEN);
+    }
+
     vnet_mac_change(s, pkt_desc.vm_pkt_iov->iov_base, pkt_desc.vm_pkt_size, false);
     vnet_mac_change_for_arp(s, pkt_desc.vm_pkt_iov->iov_base, pkt_desc.vm_pkt_size, false);
     vnet_mac_change_for_dhcp(s, pkt_desc.vm_pkt_iov->iov_base, pkt_desc.vm_pkt_size, false);
@@ -324,19 +336,8 @@ static void vnet_cleanup(NetClientState *nc)
     }
 
     if (-1 != s->proxyfd) {
-        // send terminating packet for UDP client
-        uint32_t term = htonl(0x999);
-        write(s->proxyfd, &term, sizeof(term));
-
-        struct sockaddr_un local = {0};
-        socklen_t addrlen = sizeof(local);
-        getsockname(s->proxyfd, (struct sockaddr*)&local, &addrlen);
-
         close(s->proxyfd);
         s->proxyfd = -1;
-
-        if (local.sun_path[0])
-            unlink(local.sun_path);
     }
 }
 
@@ -436,7 +437,6 @@ static VnetState *net_vnet_fd_init(NetClientState *peer,
     
     s = DO_UPCAST(VnetState, nc, nc);
 
-    fcntl(fd, F_SETFL, O_NONBLOCK);
     s->proxyfd = fd;
     s->iface = iface;
     s->enabled = true;
@@ -532,6 +532,10 @@ static int create_socket(const char* path) {
     if (-1 == s)
         return -1;
 
+    int sendbuff = 1024 * 1024;
+    setsockopt(s, SOL_SOCKET, SO_SNDBUF, &sendbuff, sizeof(sendbuff));
+    setsockopt(s, SOL_SOCKET, SO_RCVBUF, &sendbuff, sizeof(sendbuff));
+
     struct sockaddr_un addr = {0};
     addr.sun_family = AF_UNIX;
     strncpy(addr.sun_path, path, sizeof(addr.sun_path));
@@ -541,7 +545,7 @@ static int create_socket(const char* path) {
         return -1;
     }
 
-    chmod(addr.sun_path, 0666);
+    chmod(addr.sun_path, 0600);
 
     return s;
 }
@@ -556,15 +560,17 @@ static int net_init_proxy(int mode, uuid_t uuid, uint8_t lmac[6]) {
         return -1;
     }
 
+    if (uuid_is_null(uuid))
+        uuid_generate(uuid);
+
+    uuid_string_t buf;
+    uuid_unparse(uuid, buf);
+
     // launch the proxy
     char vcmd[128];
-    snprintf(vcmd, sizeof(vcmd), "vmnetproxy %s %s", path, mode == VMNET_HOST_MODE ? "host" : "shared");
-    if (!uuid_is_null(uuid)) {
-        uuid_string_t buf;
-        uuid_unparse(uuid, buf);
-        strncat(vcmd, " ", sizeof(vcmd));
-        strncat(vcmd, buf, sizeof(vcmd));
-    }
+    snprintf(vcmd, sizeof(vcmd), "vmnetproxy %s %s %s %u %u",
+             path, VMNET_HOST_MODE == mode ? "host" : "shared",
+             buf, getuid(), _veertu_loglevel);
     if (0 != vsystem(vcmd, 0)) {
         close(fd);
         unlink(path);
@@ -579,6 +585,9 @@ static int net_init_proxy(int mode, uuid_t uuid, uint8_t lmac[6]) {
         return -1;
     }
 
+    // go to "anonymous" mode
+    unlink(path);
+
     if (-1 == connect(fd, (struct sockaddr*)&peer, addrlen)) {
         close(fd);
         return -1;
@@ -590,6 +599,8 @@ static int net_init_proxy(int mode, uuid_t uuid, uint8_t lmac[6]) {
         displayAlert("Failed to create network connection", "Try again later", "Close");
         return -1;
     }
+
+    fcntl(fd, F_SETFL, O_NONBLOCK);
 
     return fd;
 }
@@ -622,7 +633,7 @@ int net_init_vnet(const NetClientOptions *opts, const char *name, NetClientState
 
     uint8_t lmac[6];
     interface_ref iface = NULL;
-    int proxyfd = net_init_proxy(opts, uuid, lmac);
+    int proxyfd = net_init_proxy(mode, uuid, lmac);
     if (-1 == proxyfd) {
         iface = net_init_vmnet(mode, uuid, lmac);
         if (NULL == iface)

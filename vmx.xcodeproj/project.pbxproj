@@ -208,39 +208,10 @@
 		A1815F591DB7A181006FDCB3 /* vmx-coroutine-io.c in Sources */ = {isa = PBXBuildFile; fileRef = A1815F2E1DB7A181006FDCB3 /* vmx-coroutine-io.c */; };
 		A1815F5A1DB7A181006FDCB3 /* vpc.c in Sources */ = {isa = PBXBuildFile; fileRef = A1815F2F1DB7A181006FDCB3 /* vpc.c */; };
 		A1815F5B1DB7A181006FDCB3 /* vvfat.c in Sources */ = {isa = PBXBuildFile; fileRef = A1815F301DB7A181006FDCB3 /* vvfat.c */; };
-		A18160441DB7A259006FDCB3 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F701DB7A259006FDCB3 /* __init__.py */; };
-		A18160451DB7A259006FDCB3 /* cli_interface.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F711DB7A259006FDCB3 /* cli_interface.py */; };
-		A18160461DB7A259006FDCB3 /* formatter.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F721DB7A259006FDCB3 /* formatter.py */; };
-		A18160471DB7A259006FDCB3 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F741DB7A259006FDCB3 /* __init__.py */; };
-		A18160481DB7A259006FDCB3 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F761DB7A259006FDCB3 /* __init__.py */; };
-		A18160491DB7A259006FDCB3 /* _bashcomplete.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F771DB7A259006FDCB3 /* _bashcomplete.py */; };
-		A181604A1DB7A259006FDCB3 /* _compat.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F781DB7A259006FDCB3 /* _compat.py */; };
-		A181604B1DB7A259006FDCB3 /* _termui_impl.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F791DB7A259006FDCB3 /* _termui_impl.py */; };
-		A181604C1DB7A259006FDCB3 /* _textwrap.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F7A1DB7A259006FDCB3 /* _textwrap.py */; };
-		A181604D1DB7A259006FDCB3 /* _unicodefun.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F7B1DB7A259006FDCB3 /* _unicodefun.py */; };
-		A181604E1DB7A259006FDCB3 /* _winconsole.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F7C1DB7A259006FDCB3 /* _winconsole.py */; };
-		A181604F1DB7A259006FDCB3 /* core.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F7D1DB7A259006FDCB3 /* core.py */; };
-		A18160501DB7A259006FDCB3 /* decorators.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F7E1DB7A259006FDCB3 /* decorators.py */; };
-		A18160511DB7A259006FDCB3 /* exceptions.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F7F1DB7A259006FDCB3 /* exceptions.py */; };
-		A18160521DB7A259006FDCB3 /* formatting.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F801DB7A259006FDCB3 /* formatting.py */; };
-		A18160531DB7A259006FDCB3 /* globals.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F811DB7A259006FDCB3 /* globals.py */; };
-		A18160541DB7A259006FDCB3 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A1815F821DB7A259006FDCB3 /* LICENSE */; };
-		A18160551DB7A259006FDCB3 /* parser.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F831DB7A259006FDCB3 /* parser.py */; };
-		A18160561DB7A259006FDCB3 /* termui.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F841DB7A259006FDCB3 /* termui.py */; };
-		A18160571DB7A259006FDCB3 /* testing.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F851DB7A259006FDCB3 /* testing.py */; };
-		A18160581DB7A259006FDCB3 /* types.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F861DB7A259006FDCB3 /* types.py */; };
-		A18160591DB7A259006FDCB3 /* utils.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F871DB7A259006FDCB3 /* utils.py */; };
-		A181605A1DB7A259006FDCB3 /* __init__.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F891DB7A259006FDCB3 /* __init__.py */; };
-		A181605B1DB7A259006FDCB3 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A1815F8A1DB7A259006FDCB3 /* LICENSE */; };
-		A181605C1DB7A259006FDCB3 /* tabulate.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F8B1DB7A259006FDCB3 /* tabulate.py */; };
-		A181605D1DB7A259006FDCB3 /* utils.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F8C1DB7A259006FDCB3 /* utils.py */; };
-		A181605E1DB7A259006FDCB3 /* veertu_manager.py in Resources */ = {isa = PBXBuildFile; fileRef = A1815F8D1DB7A259006FDCB3 /* veertu_manager.py */; };
 		A181605F1DB7A259006FDCB3 /* ExportOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1815FA31DB7A259006FDCB3 /* ExportOptionsView.m */; };
-		A18160601DB7A259006FDCB3 /* icn in Resources */ = {isa = PBXBuildFile; fileRef = A1815FB21DB7A259006FDCB3 /* icn */; };
 		A18160611DB7A259006FDCB3 /* libarchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1815FBF1DB7A259006FDCB3 /* libarchive.a */; };
 		A18160621DB7A259006FDCB3 /* libbz2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1815FC01DB7A259006FDCB3 /* libbz2.a */; };
 		A18160631DB7A259006FDCB3 /* NSColor+RGB.m in Sources */ = {isa = PBXBuildFile; fileRef = A1815FD51DB7A259006FDCB3 /* NSColor+RGB.m */; };
-		A18160CE1DB7A347006FDCB3 /* acpi-dsdt.hex in Resources */ = {isa = PBXBuildFile; fileRef = A18160661DB7A347006FDCB3 /* acpi-dsdt.hex */; };
 		A18160CF1DB7A347006FDCB3 /* acpicore.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160671DB7A347006FDCB3 /* acpicore.c */; };
 		A18160D01DB7A347006FDCB3 /* acpiich9.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160681DB7A347006FDCB3 /* acpiich9.c */; };
 		A18160D11DB7A347006FDCB3 /* acpipiix4.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160691DB7A347006FDCB3 /* acpipiix4.c */; };
@@ -316,10 +287,6 @@
 		A18161191DB7A347006FDCB3 /* smbus.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160BB1DB7A347006FDCB3 /* smbus.c */; };
 		A181611A1DB7A347006FDCB3 /* smbus_eeprom.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160BC1DB7A347006FDCB3 /* smbus_eeprom.c */; };
 		A181611B1DB7A347006FDCB3 /* smbus_ich9.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160BD1DB7A347006FDCB3 /* smbus_ich9.c */; };
-		A181611C1DB7A347006FDCB3 /* ssdt-mem.hex in Resources */ = {isa = PBXBuildFile; fileRef = A18160BE1DB7A347006FDCB3 /* ssdt-mem.hex */; };
-		A181611D1DB7A347006FDCB3 /* ssdt-misc.hex in Resources */ = {isa = PBXBuildFile; fileRef = A18160BF1DB7A347006FDCB3 /* ssdt-misc.hex */; };
-		A181611E1DB7A347006FDCB3 /* ssdt-pcihp.hex in Resources */ = {isa = PBXBuildFile; fileRef = A18160C01DB7A347006FDCB3 /* ssdt-pcihp.hex */; };
-		A181611F1DB7A347006FDCB3 /* ssdt-tpm.hex in Resources */ = {isa = PBXBuildFile; fileRef = A18160C11DB7A347006FDCB3 /* ssdt-tpm.hex */; };
 		A18161201DB7A347006FDCB3 /* sysbus.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160C21DB7A347006FDCB3 /* sysbus.c */; };
 		A18161211DB7A347006FDCB3 /* typeinfo.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160C31DB7A347006FDCB3 /* typeinfo.c */; };
 		A18161221DB7A347006FDCB3 /* usbbus.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160C41DB7A347006FDCB3 /* usbbus.c */; };
@@ -331,8 +298,6 @@
 		A18161281DB7A347006FDCB3 /* vmware_vga.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160CC1DB7A347006FDCB3 /* vmware_vga.c */; };
 		A18161291DB7A347006FDCB3 /* vmx_port.c in Sources */ = {isa = PBXBuildFile; fileRef = A18160CD1DB7A347006FDCB3 /* vmx_port.c */; };
 		A181613C1DB7BD80006FDCB3 /* cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = A181612B1DB7BD80006FDCB3 /* cocoa.m */; };
-		A181613E1DB7BD80006FDCB3 /* cursor_hidden.xpm in Resources */ = {isa = PBXBuildFile; fileRef = A181612F1DB7BD80006FDCB3 /* cursor_hidden.xpm */; };
-		A181613F1DB7BD80006FDCB3 /* cursor_left_ptr.xpm in Resources */ = {isa = PBXBuildFile; fileRef = A18161301DB7BD80006FDCB3 /* cursor_left_ptr.xpm */; };
 		A18161401DB7BD80006FDCB3 /* input-keymap.c in Sources */ = {isa = PBXBuildFile; fileRef = A18161311DB7BD80006FDCB3 /* input-keymap.c */; };
 		A18161421DB7BD80006FDCB3 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = A18161331DB7BD80006FDCB3 /* input.c */; };
 		A18161431DB7BD80006FDCB3 /* VmApp.m in Sources */ = {isa = PBXBuildFile; fileRef = A18161371DB7BD80006FDCB3 /* VmApp.m */; };
@@ -420,7 +385,6 @@
 		A18162CF1DB903D1006FDCB3 /* coroutine-sleep.c in Sources */ = {isa = PBXBuildFile; fileRef = A1815F0F1DB7A181006FDCB3 /* coroutine-sleep.c */; };
 		A18162D01DB90487006FDCB3 /* aes.c in Sources */ = {isa = PBXBuildFile; fileRef = A1FBCEEB1D51EC1000AC7F58 /* aes.c */; };
 		A18162D11DB9055A006FDCB3 /* aes.c in Sources */ = {isa = PBXBuildFile; fileRef = A1FBCEEB1D51EC1000AC7F58 /* aes.c */; };
-		A184BAB61DA9928D00CE47A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A184BAB51DA9928D00CE47A8 /* Localizable.strings */; };
 		A1B0A8661D589F6400BD454C /* libglib-2.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B0A8651D589F6400BD454C /* libglib-2.0.a */; };
 		A1B0A86A1D589FF600BD454C /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B0A8691D589FF600BD454C /* libz.tbd */; };
 		A1B0A8721D58A05000BD454C /* libpixman-1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B0A8711D58A05000BD454C /* libpixman-1.a */; };
@@ -1175,7 +1139,6 @@
 		AADC4A5F1AC6A31C00B3F9EC /* tftp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tftp.h; sourceTree = "<group>"; };
 		AADC4A601AC6A31C00B3F9EC /* udp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = udp.c; sourceTree = "<group>"; };
 		AADC4A611AC6A31C00B3F9EC /* udp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udp.h; sourceTree = "<group>"; };
-		AADC4B181AC6A31D00B3F9EC /* vmcs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vmcs.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2083,7 +2046,6 @@
 			isa = PBXGroup;
 			children = (
 				AAD59F7B1D19656F00AE1870 /* power_events.m */,
-				AADC4B181AC6A31D00B3F9EC /* vmcs.h */,
 			);
 			name = vmx;
 			sourceTree = "<group>";
@@ -2280,42 +2242,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8DBF791C7DB1F20077C069 /* images.xcassets in Resources */,
-				A18160591DB7A259006FDCB3 /* utils.py in Resources */,
-				A181604D1DB7A259006FDCB3 /* _unicodefun.py in Resources */,
-				A18160571DB7A259006FDCB3 /* testing.py in Resources */,
-				A18160491DB7A259006FDCB3 /* _bashcomplete.py in Resources */,
-				A18160581DB7A259006FDCB3 /* types.py in Resources */,
-				A181604E1DB7A259006FDCB3 /* _winconsole.py in Resources */,
-				A181611F1DB7A347006FDCB3 /* ssdt-tpm.hex in Resources */,
-				A181604A1DB7A259006FDCB3 /* _compat.py in Resources */,
-				A184BAB61DA9928D00CE47A8 /* Localizable.strings in Resources */,
-				A181613E1DB7BD80006FDCB3 /* cursor_hidden.xpm in Resources */,
-				A181605E1DB7A259006FDCB3 /* veertu_manager.py in Resources */,
-				A181604F1DB7A259006FDCB3 /* core.py in Resources */,
-				A18160481DB7A259006FDCB3 /* __init__.py in Resources */,
-				A181605D1DB7A259006FDCB3 /* utils.py in Resources */,
-				A18160471DB7A259006FDCB3 /* __init__.py in Resources */,
-				A18160451DB7A259006FDCB3 /* cli_interface.py in Resources */,
-				A18160531DB7A259006FDCB3 /* globals.py in Resources */,
-				A181605A1DB7A259006FDCB3 /* __init__.py in Resources */,
-				A181605B1DB7A259006FDCB3 /* LICENSE in Resources */,
-				A18160501DB7A259006FDCB3 /* decorators.py in Resources */,
-				A18160521DB7A259006FDCB3 /* formatting.py in Resources */,
-				A18160441DB7A259006FDCB3 /* __init__.py in Resources */,
-				A18160541DB7A259006FDCB3 /* LICENSE in Resources */,
-				A18160601DB7A259006FDCB3 /* icn in Resources */,
-				A181604C1DB7A259006FDCB3 /* _textwrap.py in Resources */,
-				A181611E1DB7A347006FDCB3 /* ssdt-pcihp.hex in Resources */,
-				A181611C1DB7A347006FDCB3 /* ssdt-mem.hex in Resources */,
-				A18160CE1DB7A347006FDCB3 /* acpi-dsdt.hex in Resources */,
-				A18160551DB7A259006FDCB3 /* parser.py in Resources */,
-				A18160561DB7A259006FDCB3 /* termui.py in Resources */,
-				A181605C1DB7A259006FDCB3 /* tabulate.py in Resources */,
-				A181613F1DB7BD80006FDCB3 /* cursor_left_ptr.xpm in Resources */,
-				A18160461DB7A259006FDCB3 /* formatter.py in Resources */,
-				A181611D1DB7A347006FDCB3 /* ssdt-misc.hex in Resources */,
-				A181604B1DB7A259006FDCB3 /* _termui_impl.py in Resources */,
-				A18160511DB7A259006FDCB3 /* exceptions.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2793,10 +2719,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
+					"$(inherited)",
 					"_DARWIN_FEATURE_CLOCK_GETTIME=0",
 					"PRODUCT_VDOA=1",
-					"$(inherited)",
+					"DEBUG=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -2821,7 +2747,6 @@
 					"$(PROJECT_DIR)/../3rdparty/libarchive/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
@@ -2851,10 +2776,9 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"NDEBUG=1",
+					"$(inherited)",
 					"_DARWIN_FEATURE_CLOCK_GETTIME=0",
 					"PRODUCT_VDOA=1",
-					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -2879,7 +2803,6 @@
 					"$(PROJECT_DIR)/../3rdparty/libarchive/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = x86_64;
@@ -2891,7 +2814,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 0;
-				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				INFOPLIST_FILE = vda/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2908,7 +2830,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.veertu.vmx;
 				PRODUCT_NAME = vmx;
-				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -2917,7 +2838,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 0;
-				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				INFOPLIST_FILE = vda/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2934,7 +2854,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.veertu.vmx;
 				PRODUCT_NAME = vmx;
-				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

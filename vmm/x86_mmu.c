@@ -168,15 +168,11 @@ static bool walk_gpt(struct CPUState *cpu, addr_t addr, int err_code, struct gpt
 }
 
 
-bool mmu_gva_to_gpa_ext(struct CPUState *cpu, addr_t gva, addr_t *gpa, int flags)
+bool mmu_gva_to_gpa(struct CPUState *cpu, addr_t gva, addr_t *gpa)
 {
     bool res;
     struct gpt_translation pt;
     int err_code = 0;
-
-    if (flags & GVA_TO_GPA_WRITABLE) err_code |= MMU_PAGE_WT;
-    if (flags & GVA_TO_GPA_USER) err_code |= MMU_PAGE_US;
-    if (flags & GVA_TO_GPA_EXEC) err_code |= MMU_PAGE_NX;
 
     if (!x86_is_paging_mode(cpu)) {
         *gpa = gva;
@@ -188,15 +184,8 @@ bool mmu_gva_to_gpa_ext(struct CPUState *cpu, addr_t gva, addr_t *gpa, int flags
         *gpa = pt.gpa;
         return true;
     }
-    if (flags & GVA_TO_GPA_FORWARD_PAGE_FAULT) {
-        VM_PANIC_ON_EX(1, "cannot resolve addr %llx\n", gva);
-    }
-    return false;
-}
 
-bool mmu_gva_to_gpa(struct CPUState *cpu, addr_t gva, addr_t *gpa)
-{
-     return mmu_gva_to_gpa_ext(cpu, gva, gpa, GVA_TO_GPA_DEFAULT);
+    return false;
 }
 
 void vmx_write_mem(struct CPUState* cpu, addr_t gva, void *data, int bytes)

@@ -3,9 +3,10 @@
 ## Overview
 
 Veertu Desktop Hosted Hypervisor(VDHH) is the core hypervisor platform for
-Veertu Desktop product. Veertu Desktop is native virtualization for macOS
+Veertu Desktop product.
+Veertu Desktop is native virtualization for macOS
 platforms to run Linux and Windows VMS built by Veertu Inc. VDHH is a Type 2
-hypervisor built on top of Apple macOS Hypervisor.Framework. It uses APIs
+hypervisor built on top of Apple macOS Hypervisor.Framework and QEMU device emulation codebase. It uses APIs
 provided by the framework for resource scheduling and power management, without
 the need to install kernel level extensions (KEXTs). As a result, it's extremely
 lightweight, responsive and less resource intensive.
@@ -18,7 +19,11 @@ all the system resources.
 
 ## Download
 
-To Install Veertu Desktop on Mac, please visit [veertu.com](https://veertu.com)
+To Install Veertu Desktop on Mac, please visit [veertu.com](https://veertu.com) and follow updates on twitter @veertu_labs.
+
+## Community
+Join our Slack community to discuss and give feedback
+https://slack.veertu.com/
 
 ## Building
 
@@ -51,4 +56,4 @@ hypervisor will be used to run VM.
 
 ## License
 
-VDHH is licensed under the terms of the [GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
+VDHH is licensed under the terms of [GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).

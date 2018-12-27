@@ -20,13 +20,6 @@
 #define MMU_PAGE_US             (1 << 2)
 #define MMU_PAGE_NX             (1 << 3)
 
-#define GVA_TO_GPA_DEFAULT              0
-#define GVA_TO_GPA_WRITABLE             1
-#define GVA_TO_GPA_USER                 2
-#define GVA_TO_GPA_EXEC                 4
-#define GVA_TO_GPA_FORWARD_PAGE_FAULT   8
-
-bool mmu_gva_to_gpa_ext(struct CPUState *cpu, addr_t gva, addr_t *gpa, int flags);
 bool mmu_gva_to_gpa(struct CPUState *cpu, addr_t gva, addr_t *gpa);
 
 void vmx_write_mem(struct CPUState* cpu, addr_t gva, void *data, int bytes);
